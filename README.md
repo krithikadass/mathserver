@@ -1,5 +1,5 @@
 # Ex.05 Design a Website for Server Side Processing
-# Date:
+# Date: 25.04.2025
 # AIM:
 To design a website to calculate the power of a lamp filament in an incandescent bulb in the server side.
 
@@ -29,7 +29,112 @@ Create a HTML file to implement form based input and output.
 Publish the website in the given URL.
 
 # PROGRAM :
+```
+<html>
+<head>
+    <title>math</title>
+    <style>
+        body{
+            background-color:blanchedalmond;
+        }
+        h1{
+            border: 2px solid black;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 5px;
+            position: fixed;
+            top: 200px;
+            right: 500px;
+            font-size: xx-large;
+            font-weight: bolder;
+            font-variant: small-caps;
+            background: linear-gradient(to bottom,grey,white,grey);
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            color:black;
+        }
+        form{
+            border: 2px solid black;
+            background-color: rgba(128, 128, 128, 0.064) ;
+            padding: 30px;
+            margin: 10px;
+            border-radius: 10px;
+            width: 425px;
+            position: fixed;
+            top: 300px;
+            left: 527px;
+   
+            background-size: 60%;
+            background-repeat: no-repeat;
+            background-position: left;
+    
+        }
+
+    </style>
+</head>
+<body>
+    <h1 align="center" > Power of a lamp filament</h1>
+    <form align="center" method="POST">
+    {%csrf_token%}
+     
+    <div class="power">
+
+        <label for="INTENSITY"><b>INTENSITY:</b></label>
+        <input type="text" name="intensity" id="INTENSITY" placeholder="Enter the Value" value="{{i}}">
+    </div>
+    <br>
+    <div class="power">
+        <label for="RESISTANCE"><b>RESISTANCE:</b></label>
+        <input type="text" name="resistance" id="RESISTANCE" placeholder="Enter the Value" value="{{r}}">
+    </div>
+    <br>
+    <input type="submit" value="CALCULATE">
+    <br>
+    <br>
+    <div class="power">
+        <label for="POWER"><b>POWER:</b></label>
+        <input type="text" name="POWER" id="POWER" placeholder="Answer" value="{{power}}">
+        
+    </div>
+</form>
+</body>
+</html>
+```
+```
+from django.shortcuts import render
+def powerlamp(request): 
+    context={} 
+    context['power']="0" 
+    context['i']="0" 
+    context['r']="0" 
+    if request.method=='POST': 
+        print("POST method is used")
+        i=request.POST.get('intensity','0')
+        r=request.POST.get('resistance','0')
+        print('request=',request) 
+        print('intensity=',i) 
+        print('resistance=',r) 
+        power=(int(i) ** 2 ) * int(r) 
+        context['power']=power
+        context['i']=i
+        context['r']=r 
+        print('Power=',power) 
+    return render(request,'mathapp/math.html',context)
+```
+```
+from django.contrib import admin 
+from django.urls import path 
+from mathapp import views 
+urlpatterns = [ 
+    path('admin/', admin.site.urls), 
+    path('powerlamp/',views.powerlamp,name="powerlamp"),
+    path('',views.powerlamp,name="powerlamproot")
+]
+```
 # SERVER SIDE PROCESSING:
+![image](https://github.com/user-attachments/assets/66cac51b-ddfd-493f-922d-14a70acdb03f)
+
 # HOMEPAGE:
+![image](https://github.com/user-attachments/assets/0584ff6c-4703-4a04-ac53-f7b6b423436d)
+
 # RESULT:
 The program for performing server side processing is completed successfully.
